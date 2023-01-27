@@ -6,7 +6,8 @@ pipeline{
         script {
           dockerapp = docker.build("micheldonencio/kube-news:${env.BUILD_ID}", '-f ./src/Dockerfile ./src')
         }
-      }  
+      }
+    }  
     stage ('Docker Push'){
       steps {
          script {
@@ -15,7 +16,6 @@ pipeline{
            dockerapp.push("${env.BUILD_ID}")
          }
       }
-    }
     }
   }	
 }
