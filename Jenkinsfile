@@ -18,5 +18,18 @@ pipeline{
          }
       }
     }
+    stage ('K8s Deploy'){
+      environment {
+        tag_version = "${env.BUILD_ID}"
+      }
+      steps {
+        script {
+          withKubeConfig([credentialsId: 'kubernetes']){
+            sh 'sed -i "s/{{TAG}}/$tag_version/g" ./k8s/deployment.yaml'
+            sh 'kubectl apply -f ./k8s/deployment.yaml'
+          }
+        }
+      }
+    }
   }	
 }
